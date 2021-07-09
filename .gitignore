@@ -2,6 +2,6 @@
 *.json
 
 #  以下のディレクトリは要らない
-/.bundle
-/venfor
+.bundle/
+venfor/
 
