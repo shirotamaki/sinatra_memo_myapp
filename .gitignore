@@ -3,5 +3,5 @@
 
 #  以下のディレクトリは要らない
 .bundle/
-venfor/
+vendor/
 
