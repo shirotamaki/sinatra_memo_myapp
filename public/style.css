@@ -1,0 +1,198 @@
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Reggae One', cursive;
+    height: 600px;
+    width: 400px;
+}
+
+header {
+    flex-basis: 15%;
+    background-color: rgb(238, 168, 209);
+    text-align: center;
+    border-radius: 5px;
+    padding-bottom: 8px;
+}
+
+main {
+    flex-basis: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: rgb(254,252,2);
+}
+
+section {
+    flex-basis: 10%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(254,252,2);
+}
+footer {
+    flex-basis: 10%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(254,252,2);
+    border-radius: 5px;
+    text-align: center;
+}
+
+.header_content {
+    color: rgb(254,252,2);
+    text-decoration: none;
+}
+
+.header_content:hover {
+    color: black;
+    font-weight: bold;
+}
+
+.title1 {
+    font-size: 60px;
+    font-weight: 800;
+}
+
+.title2 {
+    font-size: 38px;
+    font-weight: 200;
+}
+
+.title3 {
+    font-size: 48px;
+    font-weight: 800;
+}
+
+.title4 {
+    font-size: 49px;
+    font-weight: 200;
+}
+
+.title5 {
+    font-size: 40px;
+    font-weight: 200;
+}
+
+.title6 {
+    font-size: 48px;
+}
+
+.items_wrapper {
+    height: 40px;
+    margin-bottom: 0;
+}
+
+.items {
+    color: rgb(128, 128, 128);
+}
+
+.item {
+    font-size: 18px;
+    color: rgb(128, 128, 128);
+    text-decoration: none;
+}
+
+.item:hover {
+    color: black;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.button_wrapper{
+    flex-basis: 20%;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    margin: 8px;
+    padding: 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    border: 1px;
+    border-radius: 5px;
+    background-color: rgb(238, 168, 209);
+    color: rgb(254,252,2);
+    font-family: 'Reggae One', cursive;
+    font-size: 20px;
+}
+
+.button:hover {
+    color: black;
+    font-weight: bold;
+}
+
+/*new.erb*/
+.input_wrapper {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.title {
+    width: 80%; /* 幅 */
+    padding: 0.5em; /* 枠線内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border: solid 2px #e1e3e8; /* 枠線のスタイル */
+    border-radius: 4px; /* 角丸に */
+    resize: none; /* リサイズ不可に */
+}
+
+.content {
+    width: 80%; /* 幅 */
+/*/margin: 16px; ! 周囲の余白 !/*/
+    padding: 0.5em; /* 枠線内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border: solid 2px #e1e3e8; /* 枠線のスタイル */
+    border-radius: 5px; /* 角丸に */
+    resize: none; /* リサイズ不可に */
+    white-space: pre-wrap;
+}
+
+.input_wrapper_show {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title_show {
+    background-color: darkgray;
+    color: rgb(254,252,2);
+    text-align: left;
+    margin: 16px; /* 周囲の余白 */
+    padding: 0.5em; /* 枠線内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border: solid 2px darkgray; /* 枠線のスタイル */
+    border-radius: 5px; /* 角丸に */
+}
+
+.content_show {
+    background-color: darkgray;
+    color: rgb(254,252,2);
+    text-align: left;
+    height: 140px; /* 幅 */
+    margin: 16px; /* 周囲の余白 */
+    padding: 0.5em; /* 枠線内の余白 */
+    font-size: 16px; /* フォントサイズ */
+    border: solid 2px darkgray;; /* 枠線のスタイル */
+    border-radius: 5px; /* 角丸に */
+    white-space: pre-wrap;
+}
+
+.not_found {
+    text-align: center;
+}
+
+.not_found_404 {
+    text-align: center;
+    font-size: 24px;
+}
+
+.footer-copyright {
+    color: gray;
+    font-size: 8px;
+    text-align: center;
+    margin-top: 24px;
+}

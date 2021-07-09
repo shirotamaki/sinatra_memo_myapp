@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>メモアプリ</title>
+    <meta name="description" content="学習用のメモアプリ">
+    <link href="/style.css"  rel="stylesheet" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel"stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Reggae+One&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <a href='/memos' class="header_content">
+      <span class="title1">メ</span>
+      <span class="title2">モ</span>
+      <span class="title3">し</span>
+      <span class="title4">や</span>
+      <span class="title5">が</span>
+      <span class="title6">れ</span>
+      </a>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+    <footer>
+      <small class="footer-copyright">&copy; 2021 tamaki</small>
+    </footer>
+  </body>
+</html>
