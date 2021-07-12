@@ -6,7 +6,7 @@
     <p class="content_show"><%= h(memo[:content]) %></p>
   </div>
     <div class="button_wrapper">
-      <p><a href='/memos/<%= h(memo[:id]) %>/edit' class="button">編集</a></p>
+      <p><a href='/memos/<%= memo[:id] %>/edit' class="button">編集</a></p>
       <p><input type="submit" value="削除" class="button"></p>
     </div>
   </form>
