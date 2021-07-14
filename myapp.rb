@@ -11,14 +11,10 @@ helpers do
   end
 end
 
-def user_params
-  params.permit(:id)
-end
-
 get '/memos' do
   files = Dir.glob('./json/*.json')
   memos = files.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
-  @memos = memos.sort_by { |f| f[:created_at] }
+  @memos = memos.sort_by { |m| m[:created_at] }
   erb :index
 end
 
@@ -35,8 +31,10 @@ post '/memos' do
 end
 
 get '/memos/:id' do
+  # file = Dir.glob("./json/memos_#{params[:id]}.json")
+  # @memo = file.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
   file = Dir.glob("./json/memos_#{params[:id]}.json")
-  @memo = file.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
+  @file = JSON.parse(file)
   erb :show
 end
 
@@ -47,7 +45,7 @@ get '/memos/:id/edit' do
 end
 
 patch '/memos/:id' do
-  memo = { id: user_params, title: params[:title], content: params[:content], created_at: Time.new }
+  memo = { id: params[:id], title: params[:title], content: params[:content], created_at: Time.new }
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
