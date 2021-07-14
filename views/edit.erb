@@ -1,5 +1,5 @@
 <% @memo.each do |memo| %>
-<form action="/memos/<%= h(memo[:id]) %>" method="post">
+<form action="/memos/<%= memo[:id] %>" method="post">
   <div class="input_wrapper">
     <input type="hidden" name="_method" value="patch">
     <p>
@@ -11,7 +11,7 @@
   </div>
   <div class="button_wrapper">
     <p><input type="submit" value="保存" class="button"></p>
-    <p><a href='/memos/<%= h(memo[:id]) %>' class="button">戻る</a></p>
+    <p><a href='/memos/<%= memo[:id] %>' class="button">戻る</a></p>
   </div>
 <% end %>
 </form>
