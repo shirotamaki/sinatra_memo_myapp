@@ -27,13 +27,13 @@ post '/memos' do
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
-  redirect to("/memos/#{h(memo[:id])}")
+  redirect to("/memos/#{memo[:id]}")
 end
 
 get '/memos/:id' do
   # file = Dir.glob("./json/memos_#{params[:id]}.json")
   # @memo = file.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
-  file = Dir.glob("./json/memos_#{params[:id]}.json")
+  file = Dir.glob("./json/memos_#{params[:id]}.json").first
   @file = JSON.parse(file)
   erb :show
 end
@@ -49,7 +49,7 @@ patch '/memos/:id' do
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
-  redirect to("/memos/#{h(params[:id])}")
+  redirect to("/memos/#{params[:id]}")
 end
 
 delete '/memos/:id' do
