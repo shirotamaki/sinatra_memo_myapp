@@ -31,29 +31,39 @@ post '/memos' do
 end
 
 get '/memos/:id' do
-  # file = Dir.glob("./json/memos_#{params[:id]}.json")
-  # @memo = file.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
-  file = Dir.glob("./json/memos_#{params[:id]}.json").first
-  @file = JSON.parse(file)
+  id = File.basename(params[:id])
+  file = Dir.glob("./json/memos_#{id}.json").first
+  if file.nil?
+    status 404
+    next
+  end
+  @memo = JSON.parse(File.open(file).read,symbolize_names: true)
   erb :show
 end
 
 get '/memos/:id/edit' do
-  file = Dir.glob("./json/memos_#{params[:id]}.json")
-  @memo = file.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
+  id = File.basename(params[:id])
+  file = Dir.glob("./json/memos_#{id}.json").first
+  if file.nil?
+    status 404
+    next
+  end
+  @memo = JSON.parse(File.open(file).read,symbolize_names: true)
   erb :edit
 end
 
 patch '/memos/:id' do
-  memo = { id: params[:id], title: params[:title], content: params[:content], created_at: Time.new }
+  id = File.basename(params[:id])
+  memo = { id: id, title: params[:title], content: params[:content], created_at: Time.new }
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
-  redirect to("/memos/#{params[:id]}")
+  redirect to("/memos/#{id}")
 end
 
 delete '/memos/:id' do
-  File.delete("./json/memos_#{params[:id]}.json")
+  id = File.basename(params[:id])
+  File.delete("./json/memos_#{id}.json")
   redirect to('/memos')
 end
 
