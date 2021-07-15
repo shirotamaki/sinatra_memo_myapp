@@ -23,7 +23,7 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  memo = { id: SecureRandom.uuid, title: params[:title], content: params[:content], created_at: Time.new }
+  memo = { id: SecureRandom.uuid, title: params[:title], content: params[:content], created_at: Time.now }
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
@@ -37,7 +37,7 @@ get '/memos/:id' do
     status 404
     next
   end
-  @memo = JSON.parse(File.open(file).read,symbolize_names: true)
+  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
   erb :show
 end
 
@@ -48,13 +48,13 @@ get '/memos/:id/edit' do
     status 404
     next
   end
-  @memo = JSON.parse(File.open(file).read,symbolize_names: true)
+  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
   erb :edit
 end
 
 patch '/memos/:id' do
   id = File.basename(params[:id])
-  memo = { id: id, title: params[:title], content: params[:content], created_at: Time.new }
+  memo = { id: id, title: params[:title], content: params[:content], created_at: Time.now }
   File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
     JSON.dump(memo, file)
   end
