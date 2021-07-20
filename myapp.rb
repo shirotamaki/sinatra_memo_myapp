@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-
-
 require 'sinatra'
 require 'sinatra/reloader'
 require 'erb'
-require 'json'
+require 'pg'
+require_relative 'memo_class'
 
 helpers do
   def h(text)
@@ -13,10 +12,10 @@ helpers do
   end
 end
 
+memo = Memo.new
+
 get '/memos' do
-  files = Dir.glob('./json/*.json')
-  memos = files.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
-  @memos = memos.sort_by { |m| m[:created_at] }
+  @memos = memo.get_memos
   erb :index
 end
 
@@ -25,47 +24,31 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  memo = { id: SecureRandom.uuid, title: params[:title], content: params[:content], created_at: Time.now }
-  File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
-    JSON.dump(memo, file)
-  end
-  redirect to("/memos/#{memo[:id]}")
+  @memo = memo.create(params['title'], params['content'])
+  redirect to('/memos')
 end
 
+# メソッドが機能しない
 get '/memos/:id' do
-  id = File.basename(params[:id])
-  file = Dir.glob("./json/memos_#{id}.json").first
-  if file.nil?
-    status 404
-    next
-  end
-  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
+  conn = PG.connect(dbname: 'memos')
+  @memos = conn.exec(" SELECT * FROM memos WHERE id = '#{params['id']}' ")
   erb :show
 end
 
+# メソッドが機能しない
 get '/memos/:id/edit' do
-  id = File.basename(params[:id])
-  file = Dir.glob("./json/memos_#{id}.json").first
-  if file.nil?
-    status 404
-    next
-  end
-  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
+  conn = PG.connect(dbname: 'memos')
+  @memos = conn.exec(" SELECT * FROM memos WHERE id = '#{params['id']}' ")
   erb :edit
 end
 
-patch '/memos/:id' do
-  id = File.basename(params[:id])
-  memo = { id: id, title: params[:title], content: params[:content], created_at: Time.now }
-  File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
-    JSON.dump(memo, file)
-  end
-  redirect to("/memos/#{id}")
+delete '/memos/:id' do
+  memo.delete(params['id'])
+  redirect to('/memos')
 end
 
-delete '/memos/:id' do
-  id = File.basename(params[:id])
-  File.delete("./json/memos_#{id}.json")
+patch '/memos/:id' do
+  memo.edit(params['title'], params['content'], params['id'])
   redirect to('/memos')
 end
 
