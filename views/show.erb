@@ -1,11 +1,13 @@
-<form action="/memos/<%= @memo[:id] %>" method="post">
+<% @memos.each do |memo| %>
+<form action="/memos/<%= memo['id'] %>" method="post">
   <div class="input_wrapper_show">
     <input type="hidden" name="_method" value="delete">
-    <p class="title_show" ><%= h(@memo[:title]) %></P>
-    <p class="content_show"><%= h(@memo[:content]) %></p>
+    <p class="title_show" ><%= h(memo['title']) %></P>
+    <p class="content_show"><%= h(memo['content']) %></p>
   </div>
   <div class="button_wrapper">
-    <p><a href='/memos/<%= @memo[:id] %>/edit' class="button">編集</a></p>
+    <p><a href='/memos/<%= memo['id'] %>/edit' class="button">編集</a></p>
     <p><input type="submit" value="削除" class="button"></p>
   </div>
 </form>
+<% end %>
