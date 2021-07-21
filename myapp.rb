@@ -24,7 +24,7 @@ end
 
 post '/memos' do
   conn = PG.connect(dbname: 'memos')
-  conn.exec("INSERT INTO t_memos (title, content) VALUES ('#{params['title']}', '#{params['content']}');")
+  conn.exec('INSERT INTO t_memos (title, content) VALUES ($1, $2);', [params['title'], params['content']])
   redirect to('/memos')
 end
 
@@ -48,7 +48,7 @@ end
 
 patch '/memos/:id' do
   conn = PG.connect(dbname: 'memos')
-  conn.exec("UPDATE t_memos SET title = '#{params['title']}', content = '#{params['content']}' WHERE id = $1;", [params['id']])
+  conn.exec('UPDATE t_memos SET title = $1, content = $2 WHERE id = $3;', [params['title'], params['content'], params['id']])
   redirect to('/memos')
 end
 
