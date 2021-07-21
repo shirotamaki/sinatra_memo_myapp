@@ -12,10 +12,9 @@ helpers do
   end
 end
 
-memo = Memo.new
-
 get '/memos' do
-  @memos = memo.get_memos
+  conn = PG.connect(dbname: 'memos')
+  @memos = conn.exec('SELECT * FROM t_memos;')
   erb :index
 end
 
@@ -24,31 +23,32 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  @memo = memo.create(params['title'], params['content'])
+  conn = PG.connect(dbname: 'memos')
+  conn.exec("INSERT INTO t_memos (title, content) VALUES ( '#{params['title']}', '#{params['content']}');")
   redirect to('/memos')
 end
 
-# メソッドが機能しない
 get '/memos/:id' do
   conn = PG.connect(dbname: 'memos')
-  @memos = conn.exec(" SELECT * FROM memos WHERE id = '#{params['id']}' ")
+  @memos = conn.exec("SELECT * FROM t_memos WHERE id = '#{params['id']}';")
   erb :show
 end
 
-# メソッドが機能しない
 get '/memos/:id/edit' do
   conn = PG.connect(dbname: 'memos')
-  @memos = conn.exec(" SELECT * FROM memos WHERE id = '#{params['id']}' ")
+  @memos = conn.exec("SELECT * FROM t_memos WHERE id = '#{params['id']}';")
   erb :edit
 end
 
 delete '/memos/:id' do
-  memo.delete(params['id'])
+  conn = PG.connect(dbname: 'memos')
+  conn.exec("DELETE FROM t_memos WHERE id = '#{params['id']}';")
   redirect to('/memos')
 end
 
 patch '/memos/:id' do
-  memo.edit(params['title'], params['content'], params['id'])
+  conn = PG.connect(dbname: 'memos')
+  conn.exec("UPDATE t_memos SET title = '#{params['title']}', content = '#{params['content']}' WHERE id = '#{params['id']}';")
   redirect to('/memos')
 end
 
