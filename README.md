@@ -57,4 +57,4 @@ $ ruby myapp.rb
 ```
 
 ブラザウザへ下記URIを入力してください。
-`http://localhost::4567/memos`
+`http://localhost:4567/memos`
