@@ -11,39 +11,39 @@ Sinatraを使って作成したメモアプリです。
 # install
 ## メモアプリをインストールしてください。
 任意のディレクトリへ移動し、以下でGitHubリポジトリをクローンしてください。
-```bigquery
+```bash
 $ git clone https://github.com/shirotamaki/sinatra_memo_app.git
 ```
 
 `sinatra_memo_app` ディレクトリへ移動してください。
-```bigquery
+```bash
 $ cd sinatra_memo_app
 ```
 
 `bundle install` を実行し、必要なGemをインストールしてください。
-```bigquery
+```bash
 & bundle install
 ```
 
 ## 事前にデータベースの作成が必要になります
 PostgreSQLで自分のアカウントにログインしてください。
-```bigquery
+```bash
 $ psql -U アカウント名
 ```
 `memos`というデータベースを作成してください。
-```bigquery
+```sql
 アカウント名=#  CREATE DATABASE memos;
 ```
 psqlを一旦終了してください。
-```bigquery
+```sql
 アカウント名=# \q
 ```
 作成したデータベース`memos`へ接続してください。
-```bigquery
+```bash
 $ psql -U アカウント名 memos
 ```
 `t_memos`テーブルを作成してください。
-````bigquery
+```sql
 CREATE TABLE t_memos
 (id  serial NOT NULL,
 title text NOT NULL,
@@ -52,7 +52,7 @@ PRIMARY KEY (id));
 ````
 
 `myapp.rb`をrubyコマンドで実行すると、Sinatraを使ってサーバーが起動します。
-```bigquery
+```bash
 $ ruby myapp.rb
 ```
 
