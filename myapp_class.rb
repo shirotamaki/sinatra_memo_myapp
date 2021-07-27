@@ -2,6 +2,6 @@
 
 class Memo
   def conn
-    @connection = PG.connect(dbname: 'memos')
+    @connection ||= PG.connect(dbname: 'memos')
   end
 end
