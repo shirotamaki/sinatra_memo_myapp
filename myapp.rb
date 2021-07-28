@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-
-
 require 'sinatra'
 require 'sinatra/reloader'
 require 'erb'
-require 'json'
+require 'pg'
+require_relative 'myapp_class'
 
 helpers do
   def h(text)
@@ -13,10 +12,10 @@ helpers do
   end
 end
 
+memo = Memo.new
+
 get '/memos' do
-  files = Dir.glob('./json/*.json')
-  memos = files.map { |f| JSON.parse(File.open(f).read, symbolize_names: true) }
-  @memos = memos.sort_by { |m| m[:created_at] }
+  @memos = memo.conn.exec('SELECT * FROM t_memos;')
   erb :index
 end
 
@@ -25,47 +24,27 @@ get '/memos/new' do
 end
 
 post '/memos' do
-  memo = { id: SecureRandom.uuid, title: params[:title], content: params[:content], created_at: Time.now }
-  File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
-    JSON.dump(memo, file)
-  end
-  redirect to("/memos/#{memo[:id]}")
+  memo.conn.exec('INSERT INTO t_memos (title, content) VALUES ($1, $2);', [params['title'], params['content']])
+  redirect to('/memos')
 end
 
 get '/memos/:id' do
-  id = File.basename(params[:id])
-  file = Dir.glob("./json/memos_#{id}.json").first
-  if file.nil?
-    status 404
-    next
-  end
-  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
+  @memos = memo.conn.exec('SELECT * FROM t_memos WHERE id = $1;', [params['id']])
   erb :show
 end
 
 get '/memos/:id/edit' do
-  id = File.basename(params[:id])
-  file = Dir.glob("./json/memos_#{id}.json").first
-  if file.nil?
-    status 404
-    next
-  end
-  @memo = JSON.parse(File.open(file).read, symbolize_names: true)
+  @memos = memo.conn.exec('SELECT * FROM t_memos WHERE id = $1;', [params['id']])
   erb :edit
 end
 
-patch '/memos/:id' do
-  id = File.basename(params[:id])
-  memo = { id: id, title: params[:title], content: params[:content], created_at: Time.now }
-  File.open("./json/memos_#{memo[:id]}.json", 'w') do |file|
-    JSON.dump(memo, file)
-  end
-  redirect to("/memos/#{id}")
+delete '/memos/:id' do
+  memo.conn.exec('DELETE FROM t_memos WHERE id = $1;', [params['id']])
+  redirect to('/memos')
 end
 
-delete '/memos/:id' do
-  id = File.basename(params[:id])
-  File.delete("./json/memos_#{id}.json")
+patch '/memos/:id' do
+  memo.conn.exec('UPDATE t_memos SET title = $1, content = $2 WHERE id = $3;', [params['title'], params['content'], params['id']])
   redirect to('/memos')
 end
 
